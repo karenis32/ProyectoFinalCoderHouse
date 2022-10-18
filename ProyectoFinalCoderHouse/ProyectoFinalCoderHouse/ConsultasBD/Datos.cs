@@ -9,15 +9,15 @@ namespace ProyectoFinalCoderHouse
 {
     public class Datos
     {
-        List<Usuario> Usuarios;
-        List<Producto> Productos;
-        List<ProductoVenta> Ventas;
+        List<Usuario> ListaUsuarios;
+        List<Producto> ListaProductos;
+        List<ProductoVenta> ListaVentas;
 
         public Datos()
         {
-            Usuarios = new List<Usuario>();
-            Productos = new List<Producto>();
-            Ventas = new List<ProductoVenta>();
+            ListaUsuarios = new List<Usuario>();
+            ListaProductos = new List<Producto>();
+            ListaVentas = new List<ProductoVenta>();
         }
 
         public SqlConnectionStringBuilder ObtenerConfiguracionBase()
@@ -38,10 +38,10 @@ namespace ProyectoFinalCoderHouse
             using (SqlConnection connection = new SqlConnection(cs))
             {
                 connection.Open();
-                
+
                 SqlCommand cmd = connection.CreateCommand();
                 cmd.CommandText = @"SELECT id, nombre, apellido, edad, genero, mail, pass, dni FROM persona
-                where nombre like '"+ nombreBuscado + "'";
+                where nombre like '" + nombreBuscado + "'";
 
                 var reader = cmd.ExecuteReader();
 
@@ -100,6 +100,36 @@ namespace ProyectoFinalCoderHouse
             return usuarioRetorno;
         }
 
+        public List<Producto> TraerProducto(int idBuscado)
+        {
+            List <Producto> ProductosARetornar = new List<Producto> ();
+            SqlConnectionStringBuilder connectionStringBuilder = ObtenerConfiguracionBase();
+            var cs = connectionStringBuilder.ConnectionString;
 
+            using (SqlConnection connection = new SqlConnection(cs))
+            {
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT * FROM producto WHERE idUsuario = " + idBuscado;
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Producto productoTabla = new Producto();
+                    productoTabla.Id = Convert.ToInt32(reader.GetValue(0));
+                    productoTabla.Descripcion = reader.GetValue(1).ToString();
+                    productoTabla.ValorCosto = Convert.ToInt32(reader.GetValue(2));
+                    productoTabla.ValorVenta = Convert.ToInt32(reader.GetValue(3));
+                    productoTabla.IdUsuario = Convert.ToInt32(reader.GetValue(4));
+                    productoTabla.Stock = Convert.ToInt32(reader.GetValue(5));
+
+                    ProductosARetornar.Add(productoTabla);
+                }
+
+                connection.Close();
+            }
+
+            return ProductosARetornar;
+        }
     }
 }
