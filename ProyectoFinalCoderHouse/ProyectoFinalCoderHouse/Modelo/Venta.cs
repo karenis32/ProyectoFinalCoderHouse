@@ -14,11 +14,13 @@ namespace ProyectoFinalCoderHouse
         public Venta ()
         {
             Id = 0;
+            Descripcion = "";
         }
 
-        public Venta (int Id, List <ProductoVenta> ProductosVendidos)
+        public Venta (int Id, string Descripcion)
         {
             this.Id = Id;
+            this.Descripcion = Descripcion; 
         }
     }
 }

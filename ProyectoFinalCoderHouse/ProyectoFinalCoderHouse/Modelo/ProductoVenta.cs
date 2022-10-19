@@ -10,24 +10,24 @@ namespace ProyectoFinalCoderHouse
     {
         public int Id { get; set; }
         public int StockVendido { get; set; }
-        public Producto Producto { get; set; }
-        public Usuario Usuario { get; set; }
-        public Venta Venta { get; set; }
+        public int IdProducto { get; set; }
+        public int IdVenta { get; set; }
+        public int IdUsuario { get; set; }
         public ProductoVenta()
         {
             Id = 0;
             StockVendido = 0;
-            Producto = new Producto();
-            Usuario = new Usuario();
-            Venta = new Venta();
+            IdProducto = 0;
+            IdVenta = 0;
+            IdUsuario = 0;
         }
 
-        public ProductoVenta(int StockVendido, Producto producto, Usuario usuario, Venta venta)
+        public ProductoVenta(int StockVendido, int IdUsuario, int IdVenta, int IdProducto)
         {
             this.StockVendido=StockVendido;
-            this.Producto = producto;
-            this.Usuario = usuario;
-            this.Venta = venta;
+            this.IdUsuario = IdUsuario;
+            this.IdUsuario = IdUsuario;
+            this.IdVenta = IdVenta;
         }
     }
 }
